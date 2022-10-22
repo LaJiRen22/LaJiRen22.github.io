@@ -162,6 +162,79 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/22/div%E5%85%83%E7%B4%A0%E4%B8%AD%E7%9A%84%E6%96%87%E5%AD%97%E5%92%8Cimg%E8%A7%86%E8%A7%89%E4%B8%8A%E4%B8%8D%E5%90%8C%E9%AB%98%E7%9A%84%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="peco">
+      <meta itemprop="description" content="从零开始的个人博客">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="peco的博客">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/10/22/div%E5%85%83%E7%B4%A0%E4%B8%AD%E7%9A%84%E6%96%87%E5%AD%97%E5%92%8Cimg%E8%A7%86%E8%A7%89%E4%B8%8A%E4%B8%8D%E5%90%8C%E9%AB%98%E7%9A%84%E9%97%AE%E9%A2%98/" class="post-title-link" itemprop="url">编写CSS时，div元素中的文字和img视觉上不同高的问题及解决</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2022-10-22 17:25:58 / 修改时间：22:09:11" itemprop="dateCreated datePublished" datetime="2022-10-22T17:25:58+08:00">2022-10-22</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><p>下图是要模仿的样本网页</p>
+<p><img src="/../images/page.png" alt="1666430595792"></p>
+<p>在编写该静态网页的过程中，我遇到了一个小问题，就是四个中央的板块，float之后左边的图标和右边的文字高度上没有对齐。</p>
+<p>首先，附上相关的html代码，我把img元素放在了div里面。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;card-panel&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;panel-icon&quot;</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;icons/rmb.png&quot;</span> <span class="attr">width</span>=<span class="string">&quot;80px&quot;</span> <span class="attr">height</span>=<span class="string">&quot;80px&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;panel-description&quot;</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;panel-text&quot;</span>&gt;</span>Purchases<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">&quot;panel-num&quot;</span>&gt;</span>9,280<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h3><p>造成这种效果其实是因为下载的矢量图标，非透明的部分里图片的底部有一定元素，而默认两个div元素对齐方式为</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">vertical-align</span>: bottom;</span><br></pre></td></tr></table></figure>
+
+<p>这使得div和图片的透明底边对齐，所以在视觉上不同高度。</p>
+<h3 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h3><p>所以，我用的解决方案就是改变两个div的对齐方式。同时，也取消float，而是将display设置为inline-block，将div转为行内元素，因为使用float之后，似乎不能通过margin和padding来改变元素的位置。</p>
+<p>下列是解决问题采用的CSS代码</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.panel-icon</span> &#123;</span><br><span class="line">            <span class="attribute">vertical-align</span>: middle;</span><br><span class="line">            <span class="attribute">display</span>: inline-block;</span><br><span class="line">        &#125;</span><br><span class="line"> <span class="selector-class">.panel-description</span>&#123;</span><br><span class="line">            <span class="attribute">display</span>: inline-block;</span><br><span class="line">            <span class="attribute">vertical-align</span>: middle;</span><br><span class="line">            <span class="attribute">text-align</span>: right;</span><br><span class="line">            <span class="attribute">margin-left</span>: <span class="number">20px</span>;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="经验总结"><a href="#经验总结" class="headerlink" title="经验总结"></a>经验总结</h3><p>这次遇到的问题，让我对如何将块元素平行布局有了更多的思路。以往我都是采用float的方式，但是float和flex一起采用，似乎会是某些效果失效。经历这次之后，我可能会更多采取将块元素转换为行内元素的方式来实现布局。</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/06/%E4%BD%BF%E7%94%A8Android-Studio%E8%BF%87%E7%A8%8B%E4%B8%AD%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -185,10 +258,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2022-10-06 10:10:35 / 修改时间：14:06:03" itemprop="dateCreated datePublished" datetime="2022-10-06T10:10:35+08:00">2022-10-06</time>
+              <time title="创建时间：2022-10-06 10:10:35" itemprop="dateCreated datePublished" datetime="2022-10-06T10:10:35+08:00">2022-10-06</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-10-22 17:17:19" itemprop="dateModified" datetime="2022-10-22T17:17:19+08:00">2022-10-22</time>
+              </span>
 
           
 
@@ -379,12 +458,12 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-count">3</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-count">2</span>
         <span class="site-state-item-name">标签</span>
       </div>
   </nav>
